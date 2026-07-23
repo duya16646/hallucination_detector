@@ -8,12 +8,12 @@ from models import HallucinationType
 from rules import RuleDetector
 import config
 
-# 强制 Python 使用 UTF-8 编码（解决 Windows 下编码问题）
+# 强制 Python 使用 UTF-8 编码
 if sys.platform == 'win32':
     sys.stdin.reconfigure(encoding='utf-8')
     sys.stdout.reconfigure(encoding='utf-8')
     os.environ['PYTHONIOENCODING'] = 'utf-8'
-# 强制设置标准输出和标准错误的编码为 UTF-8（解决控制台打印乱码）
+# 强制设置标准输出和标准错误的编码为 UTF-8
 if sys.stdout.encoding != 'utf-8':
     sys.stdout.reconfigure(encoding='utf-8')
 if sys.stderr.encoding != 'utf-8':
@@ -38,13 +38,13 @@ class LLMJudge:
                 if not hasattr(openai, 'OpenAI'):
                     raise ImportError("OpenAI 版本过低，请升级到 >=1.0.0 (pip install openai --upgrade)")
 
-                # 设置环境变量，确保 httpx 使用 UTF-8（部分系统需要）
+                # 设置环境变量，确保 httpx 使用 UTF-8
                 os.environ["PYTHONIOENCODING"] = "utf-8"
 
                 self.client = openai.OpenAI(
                     api_key=self.api_key,
                     base_url=self.base_url,
-                    # 显式指定超时等，可忽略
+                    # 显式指定超时等，
                 )
                 print(f"✅ DeepSeek 客户端已初始化，模型: {self.model}")
             except ImportError as e:
@@ -70,8 +70,7 @@ class LLMJudge:
 
     def _llm_judge(self, question: str, reply: str, history: List[str] = None) -> List[HallucinationType]:
         """调用 DeepSeek API 进行深度判定"""
-        # 确保所有字符串都是 UTF-8 编码的（Python 3 默认就是 unicode，但显式转换一下更安全）
-        # 但这里实际上是 unicode，无需 encode，只是为了避免可能的隐式转换问题
+        # 确保所有字符串都是 UTF-8 编码的
         question = str(question) if question else ""
         reply = str(reply) if reply else ""
         history_str = str(history) if history else "无"
@@ -107,7 +106,6 @@ class LLMJudge:
             )
 
             raw_content = response.choices[0].message.content.strip()
-            # 去除可能的 Markdown 标记
             if raw_content.startswith("```json"):
                 raw_content = raw_content[7:-3]
             elif raw_content.startswith("```"):
@@ -127,7 +125,6 @@ class LLMJudge:
 
         except Exception as e:
             print(f"❌ DeepSeek API 调用失败: {e}")
-            # 为了调试，打印错误详情
             import traceback
             traceback.print_exc()
             print("🔄 回退至 Mock 模式")
