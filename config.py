@@ -1,8 +1,8 @@
 # config.py
 import os
-from dotenv import load_dotenv   # 需要安装 python-dotenv
+from dotenv import load_dotenv  
 
-# 加载 .env 文件（本地开发用，不提交到 Git）
+# 加载 .env 文件
 load_dotenv()
 
 # ---- 数据路径 ----
@@ -22,7 +22,7 @@ USE_MOCK = os.getenv("USE_MOCK", "False").lower() == "true"
 # ---- 输出 ----
 OUTPUT_REPORT = "report.json"
 
-# 调试：检查 Key 是否已读取（可删除）
+# 调试：检查 Key 是否已读取
 if DEEPSEEK_API_KEY:
     print(f"✅ 已读取 DEEPSEEK_API_KEY（前6位: {DEEPSEEK_API_KEY[:6]}...）")
 else:
