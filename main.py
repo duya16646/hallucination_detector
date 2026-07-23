@@ -19,7 +19,7 @@ def load_data():
         sys.exit(1)
 
 def main():
-    print("🚀 启动智能客服幻觉检测工具...")
+    print(" 启动智能客服幻觉检测工具...")
     replies, ground_truth = load_data()
     print(f"✅ 加载 {len(replies)} 条回复，{len(ground_truth)} 条标注")
 
