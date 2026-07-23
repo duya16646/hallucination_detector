@@ -55,7 +55,7 @@ class RuleDetector:
                             break
 
         # 5. 信息编造 / 地址错误（简单规则：检测是否包含具体地址）
-        if re.search(r'\d+号.*收', reply):  # 如"文三路478号 张经理收"
+        if re.search(r'\d+号.*收', reply):  
             types.append(HallucinationType.INFO_FABRICATION)
 
         # 6. 逻辑矛盾（问A答B，关键词零重叠）
