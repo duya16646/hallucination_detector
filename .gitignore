@@ -1,0 +1,5 @@
+.env
+*.pyc
+__pycache__/
+report.json
+data/*.json   # 如果数据文件也包含敏感信息可忽略
